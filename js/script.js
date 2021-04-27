@@ -213,21 +213,21 @@ window.addEventListener('DOMContentLoaded', () => {
         return await res.json();
     };
 
-    // getResource('http://localhost:3000/menu')
-    // .then(data => {
-    //     data.forEach(({img, altimg, title, descr, price}) => {
-    //         new MenuCards(img, altimg, title, descr, price, '.menu .container').render();
-    //     });
-    // });
+    getResource('http://localhost:3000/menu')
+    .then(data => {
+        data.forEach(({img, altimg, title, descr, price}) => {
+            new MenuCards(img, altimg, title, descr, price, '.menu .container').render();
+        });
+    });
 
     //  Использование библиотеки axios для GET запроса
 
-    axios.get('http://localhost:3000/menu')
-        .then(data => {
-            data.data.forEach(({img, altimg, title, descr, price}) => {
-                new MenuCards(img, altimg, title, descr, price, '.menu .container').render();
-            });
-        });
+    // axios.get('http://localhost:3000/menu')
+    //     .then(data => {
+    //         data.data.forEach(({img, altimg, title, descr, price}) => {
+    //             new MenuCards(img, altimg, title, descr, price, '.menu .container').render();
+    //         });
+    //     });
 
     // Динамическое создание элементов, если не требуется шаблонизация (если достаточно создать один раз)
 
@@ -355,5 +355,52 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
 
+    // Slider
+
+    let slideIndex = 1;
+    const slides = document.querySelectorAll('.offer__slide'),
+          prev = document.querySelector('.offer__slider-prev'),
+          next = document.querySelector('.offer__slider-next'),
+          total = document.querySelector('#total'),
+          current = document.querySelector('#current');
+
+    
+
+    showSlides(slideIndex);
+
+
+    function showSlides(n) {
+        if(n > slides.length) {
+            slideIndex = 1;
+        }
+        if(n < 1) {
+             slideIndex = slides.length;
+        } 
+
+        slides.forEach(item => {
+            item.style.display = 'none';
+        });
+
+        slides[slideIndex - 1].style.display = 'block';
+
+        if (slides.length < 10) {
+            current.textContent =  `0${slideIndex}`;
+        } else {
+            current.textContent =  slideIndex;
+        }
+    }
+
+    function plusSlides(n) {
+        showSlides(slideIndex += n);
+    }
+
+    prev.addEventListener('click', function() {
+        plusSlides(-1);
+    });
+
+    next.addEventListener('click', function() {
+        plusSlides(1);
+    });
+  
 
 });
